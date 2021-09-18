@@ -5,7 +5,7 @@ export const getArticles = params => {
   return request({
     method: 'GET',
     url: '/api/articles',
-    params
+    params,
   })
 }
 
@@ -15,26 +15,6 @@ export const getYourFeedArticles = params => {
     method: 'GET',
     url: '/api/articles/feed',
     params,
-    // headers: {
-    //   // 添加用户身份，数据格式：Token空格Token数据
-    //   Authorization: `Token eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NDgxMTYsInVzZXJuYW1lIjoibHB6OTk5IiwiZXhwIjoxNTk3NzQxNTA4fQ.2yO8Fss4hYnvsIN2UYHsutQ1hmYqSSAA-UrIRnP4DOY`
-    // }
-  })
-}
-
-// 添加点赞
-export const addFavorite = slug => {
-  return request({
-    method: 'POST',
-    url: `/api/articles/${slug}/favorite`
-  })
-}
-
-// 取消点赞
-export const deleteFavorite = slug => {
-  return request({
-    method: 'DELETE',
-    url: `/api/articles/${slug}/favorite`
   })
 }
 
@@ -42,7 +22,41 @@ export const deleteFavorite = slug => {
 export const getArticle = slug => {
   return request({
     method: 'GET',
-    url: `/api/articles/${slug}`
+    url: `/api/articles/${slug}`,
+  })
+}
+
+// 发布文章
+export const createArticle = data => {
+  return request({
+    method: 'POST',
+    url: '/api/articles',
+    data,
+  })
+}
+
+// 修改文章
+export const updateArticle = slug => {
+  return request({
+    method: 'PUT',
+    url: `/api/articles/${slug}`,
+  })
+}
+
+// 删除文章
+export const deleteArticle = slug => {
+  return request({
+    method: 'DELETE',
+    url: `/api/articles/${slug}`,
+  })
+}
+
+// 发布文章评论
+export const addComments = (data, slug) => {
+  return request({
+    method: 'POST',
+    url: `/api/articles/${slug}/comments`,
+    data,
   })
 }
 
@@ -50,6 +64,30 @@ export const getArticle = slug => {
 export const getComments = slug => {
   return request({
     method: 'GET',
-    url: `/api/articles/${slug}/comments`
+    url: `/api/articles/${slug}/comments`,
+  })
+}
+
+// 删除文章评论
+export const deleteComments = (slug, id) => {
+  return request({
+    method: 'DELETE',
+    url: `/api/articles/${slug}/comments/${id}`,
+  })
+}
+
+// 添加点赞
+export const addFavorite = slug => {
+  return request({
+    method: 'POST',
+    url: `/api/articles/${slug}/favorite`,
+  })
+}
+
+// 取消点赞
+export const deleteFavorite = slug => {
+  return request({
+    method: 'DELETE',
+    url: `/api/articles/${slug}/favorite`,
   })
 }

@@ -31,7 +31,7 @@
     </nav>
 
     <!-- view -->
-    <nuxt-child />
+    <nuxt-child :key="$route.name" />
 
     <!-- footer -->
     <footer>
