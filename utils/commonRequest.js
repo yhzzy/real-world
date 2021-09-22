@@ -28,7 +28,7 @@ export const handleOnFollow = async author => {
     author.following = false
   } else {
     await followUser(author.username)
-    article.following = true
+    author.following = true
   }
   author.followingDisabled = false
 }

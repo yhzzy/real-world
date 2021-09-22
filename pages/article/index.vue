@@ -15,6 +15,7 @@
 
       <div class="row article-content">
         <div class="col-md-12" v-html="article.body"></div>
+        <tag-list :article="article" />
       </div>
 
       <hr />
@@ -27,7 +28,28 @@
 
         <div class="col-xs-12 col-md-8 offset-md-2">
 
-          <article-comments :article="article" />
+          <article-comments v-if="user" :article="article" />
+          <p v-else>
+            <nuxt-link
+              class="nav-link"
+              exact
+              :to="{
+                name: 'login',
+              }"
+            >
+              Sign in
+            </nuxt-link>
+             or 
+            <nuxt-link
+              class="nav-link"
+              exact
+              :to="{
+                name: 'login',
+              }"
+            >
+              sign up
+            </nuxt-link> to add comments on this article.
+          </p>
           
         </div>
 
@@ -41,14 +63,17 @@
 <script>
 import { getArticle } from '@/api/article'
 import MarkdownIt from 'markdown-it'
+import { mapState } from 'vuex'
 import ArticleMeta from '@/components/article-meta'
 import ArticleComments from '@/components/article-comments'
+import TagList from '@/components/tag-list'
 
 export default {
   name: 'Article',
   components: {
     ArticleMeta,
     ArticleComments,
+    TagList,
   },
   async asyncData ({ params }) {
     const { data } = await getArticle(params.slug)
@@ -58,6 +83,9 @@ export default {
     return {
       article,
     }
+  },
+  computed: {
+    ...mapState(['user']),
   },
   head () {
     return {

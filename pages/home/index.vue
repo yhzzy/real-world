@@ -84,15 +84,15 @@
                 </nuxt-link>
                 <div class="info">
                   <nuxt-link
-                  :to="{
-                    name: 'profile',
-                    params: {
-                      username: article.author.username,
-                    },
-                  }"
-                >
-                  {{ article.author.username }}
-                </nuxt-link>
+                    :to="{
+                      name: 'profile',
+                      params: {
+                        username: article.author.username,
+                      },
+                    }"
+                  >
+                    {{ article.author.username }}
+                  </nuxt-link>
                   <span class="date">{{ article.createdAt | date('MMM DD, YYYY') }}</span>
                 </div>
                 <button
@@ -116,12 +116,13 @@
                 <h1>{{ article.title }}</h1>
                 <p>{{ article.description }}</p>
                 <span>Read more...</span>
+                <tag-list :article="article" />
               </nuxt-link>
             </div>
           </template>
 
           <div v-else class="article-preview">
-            <h3>you don't add feed articles</h3>
+            <h3>you don't add feed articles.</h3>
           </div>
 
           <nav>
@@ -190,20 +191,24 @@ import {
 import { handleOnFavorite } from '@/utils/commonRequest'
 import { getTags } from '@/api/tag'
 import { mapState } from 'vuex'
+import TagList from '@/components/tag-list'
 
 export default {
   name: 'Home',
+  components: {
+    TagList,
+  },
   async asyncData({ query }) {
     const page = Number.parseInt(query.page || 1)
     const limit = 20
     const tab = query.tab || 'global_feed'
     const tag = query.tag
-    const fn = tab === 'global_feed' || 'tag' ? getArticles : getYourFeedArticles
+    const fn = tab === ('global_feed' || 'tag') ? getArticles : getYourFeedArticles
     const [ articlesRes, tagsRes ] = await Promise.all([
       fn({
         limit,
         offset: (page - 1) * limit,
-        tag
+        tag,
       }),
       getTags()
     ])
